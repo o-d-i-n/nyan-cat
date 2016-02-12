@@ -1,0 +1,21 @@
+{
+  "name": "billi",
+  "version": "0.0.1",
+  "description": "Modern 'cat' for developers.",
+  "main": "billi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bogas04/billi.git"
+  },
+  "author": "Divjot Singh, Mayank Badola",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bogas04/billi/issues"
+  },
+  "dependencies": {
+    "chalk": "~1.1.1"
+  }
+}
