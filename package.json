@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Modern 'cat' for developers.",
   "main": "billi.js",
+  "bin": "./billi.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +11,10 @@
     "type": "git",
     "url": "https://github.com/bogas04/billi.git"
   },
-  "author": "Divjot Singh, Mayank Badola",
+  "contributors": [
+     "Divjot Singh <bogas04@gmail.com> (bogas04.github.io)", 
+     "Mayank Badola <mbad0la@outlook.com> (mbad0la.github.io)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bogas04/billi/issues"
