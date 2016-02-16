@@ -18,6 +18,7 @@ const billi = (filename, cb) => {
     if (err) throw err;
 
     output = data.split('\n')
+    output = output.slice(0,output.length - 1)
     .map((line, number, d) => lineNumber(++number, digitsIn(d.length)) + ' ' + line)
     .join('\n');
 
