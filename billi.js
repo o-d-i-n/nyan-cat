@@ -2,27 +2,25 @@
 'use strict';
 
 const fs = require('fs');
-const chalk = require('chalk')
 const usage = `Usage: billi [filename]`;
+const availablePlugins = ['json'];
 
-const digitsIn = number => String(number).length;
-const lineNumber = (number, maxDigits) => chalk.grey((' '.repeat(maxDigits) + number).substr(-maxDigits));
-
+const ext = filename => filename.split('.').splice(-1)[0];
 const billi = (filename, cb) => {
 
   if (typeof cb === 'undefined') { cb = console.log; }
 
-  let output = '';
-
-  fs.readFile(filename, 'utf8', (err, data) => {
+  fs.readFile(filename, 'utf8', (err, text) => {
     if (err) throw err;
 
-    output = data.split('\n')
-    output = output.slice(0,output.length - 1)
-    .map((line, number, d) => lineNumber(++number, digitsIn(d.length)) + ' ' + line)
-    .join('\n');
+    let output = '';
+    let plugin = require(`${__dirname}/core-plugins`);
 
-    cb(output);
+    if (availablePlugins.indexOf(ext(filename)) > -1) { plugin = require(`${__dirname}/core-plugins/${ext(filename)}`); }
+
+    plugin(text)
+    .then(cb)
+    .catch(e => console.log('Error: ', e));
   });
 
 };
