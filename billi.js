@@ -3,9 +3,9 @@
 
 const fs = require('fs');
 const usage = `Usage: billi [filename]`;
-const availablePlugins = ['json'];
-
+const availablePlugins = [];
 const ext = filename => filename.split('.').splice(-1)[0];
+
 const billi = (filename, cb) => {
 
   if (typeof cb === 'undefined') { cb = console.log; }
@@ -14,11 +14,22 @@ const billi = (filename, cb) => {
     if (err) throw err;
 
     let output = '';
-    let plugin = require(`${__dirname}/core-plugins`);
-
-    if (availablePlugins.indexOf(ext(filename)) > -1) { plugin = require(`${__dirname}/core-plugins/${ext(filename)}`); }
-
+    //let plugin = require(`${__dirname}/core-plugins`);
+    let plugin;
+    try {
+      plugin = require(`${__dirname}/core-plugins/${ext(filename)}`);
+    }
+    catch(e) {
+      plugin = text => (
+        new Promise((resolve, request) => {
+          resolve(text)
+        })
+      );
+    }
+    //console.log(plugin);
+    //if (availablePlugins.indexOf(ext(filename)) > -1) { plugin = require(`${__dirname}/core-plugins/${ext(filename)}`); }
     plugin(text)
+    .then(require(`${__dirname}/core-plugins`))
     .then(cb)
     .catch(e => console.log('Error: ', e));
   });
