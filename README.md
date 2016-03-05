@@ -1,4 +1,4 @@
-# Billi
+# Billi 😽
 
 Modern `cat` for developers.
 
@@ -12,4 +12,9 @@ Ever used cat for quick code reveal and thought "Man, wouldn't it be cool if som
 #### Usage
 ```bash
 billi package.json
+```
+
+If you wish to replace `cat` with `billi` then you can add an alias in your .bashrc/.bash_profile
+```bash
+echo "alias cat=billi" >> ~/.bash_profile
 ```
