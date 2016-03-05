@@ -1,6 +1,6 @@
 {
   "name": "billi",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Modern 'cat' for developers.",
   "main": "billi.js",
   "bin": "./billi.js",
