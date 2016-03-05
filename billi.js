@@ -14,16 +14,14 @@ const billi = (filename, cb) => {
     if (err) throw err;
 
     let output = '';
-    //let plugin = require(`${__dirname}/core-plugins`);
     let plugin;
+
     try {
       plugin = require(`${__dirname}/core-plugins/${ext(filename)}`);
-    }
-    catch(e) {
+    } catch(e) {
       plugin = text => Promise.resolve(text);
     }
-    //console.log(plugin);
-    //if (availablePlugins.indexOf(ext(filename)) > -1) { plugin = require(`${__dirname}/core-plugins/${ext(filename)}`); }
+
     plugin(text)
     .then(require(`${__dirname}/core-plugins`))
     .then(cb)

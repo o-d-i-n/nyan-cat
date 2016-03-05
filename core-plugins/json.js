@@ -1,5 +1,4 @@
 'use strict';
-
 const chalk = require('chalk');
 
 module.exports = (text) => (
@@ -20,129 +19,107 @@ module.exports = (text) => (
           wordStart = true;
           if (c === "\"") {
             doubleQuotesUsed = true;
-          }
-          else {
+          } else {
             doubleQuotesUsed = false;
           }
-        }
-        else {
+        } else {
           buildWord += c;
           if (escaped) {
             escaped = false;
-          }
-          else if ((c === "'" && !doubleQuotesUsed)||(c === "\"" && doubleQuotesUsed)) {
+          } else if ((c === "'" && !doubleQuotesUsed)||(c === "\"" && doubleQuotesUsed)) {
             if (keyReset) {
               buildJSON += chalk.red(buildWord);
-            }
-            else {
+            } else {
               buildJSON += chalk.green(buildWord);
             }
             buildWord = '';
             wordStart = false;
           }
         }
-      }
-      else if (c === "\\") {
+      } else if (c === "\\") {
         if (wordStart) {
           buildWord += c;
           if (escaped) {
             escaped = false;
-          }
-          else {
+          } else {
             escaped = true;
           }
-        }
-        else {
+        } else {
           buildJSON += c;
         }
-      }
-      else if (c === ':') {
+      } else if (c === ':') {
         if (!wordStart) {
           buildJSON += c;
           keyReset = false;
-        }
-        else {
+        } else {
           buildWord += c;
           if (escaped) {
             escaped = false;
           }
         }
-      }
-      else if (c === '{') {
+      } else if (c === '{') {
         if (!wordStart) {
           keyReset = true;
           buildJSON += c;
           bracketStack.push(c);
-        }
-        else {
+        } else {
           buildWord += c;
           if (escaped) {
             escaped = false;
           }
         }
-      }
-      else if (c === '}') {
+      } else if (c === '}') {
         if (!wordStart) {
           if (bracketStack[bracketStack.length - 1] === '{') {
             bracketStack.pop();
           }
           buildJSON += c;
-        }
-        else {
+        } else {
           buildWord += c;
           if (escaped) {
             escaped = false;
           }
         }
-      }
-      else if (c === '[') {
+      } else if (c === '[') {
         if (!wordStart) {
           buildJSON += c;
           bracketStack.push(c);
-        }
-        else {
+        } else {
           buildWord += c;
           if (escaped) {
             escaped = false;
           }
         }
-      }
-      else if (c === ']') {
+      } else if (c === ']') {
         if (!wordStart) {
           if (bracketStack[bracketStack.length - 1] === '[') {
             bracketStack.pop();
           }
           buildJSON += c;
-        }
-        else {
+        } else {
           buildWord += c;
           if (escaped) {
             escaped = false;
           }
         }
-      }
-      else if (c === ',') {
+      } else if (c === ',') {
         if (!wordStart) {
           if (bracketStack[bracketStack.length - 1] === '[') {
             keyReset = false;
-          }
-          else {
+          } else {
             keyReset = true;
           }
           buildJSON += c;
-        }
-        else {
+        } else {
           buildWord += c;
           if (escaped) {
             escaped = false;
           }
         }
-      }
-      else {
+      } else {
         if (!wordStart) {
           buildJSON += c;
-        }
-        else {
+        } else {
           buildWord += c;
           if (escaped) {
             escaped = false;
@@ -152,6 +129,5 @@ module.exports = (text) => (
     }
 
     resolve(buildJSON);
-
   })
 );
