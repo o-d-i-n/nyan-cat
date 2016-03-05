@@ -4,6 +4,7 @@ const chalk = require('chalk');
 module.exports = (text) => (
   new Promise((resolve, reject) => {
 
+    text = JSON.stringify(JSON.parse(text), null, 2);
     let bracketStack = [];
     let buildWord = '';
     let buildJSON = '';
