@@ -20,11 +20,7 @@ const billi = (filename, cb) => {
       plugin = require(`${__dirname}/core-plugins/${ext(filename)}`);
     }
     catch(e) {
-      plugin = text => (
-        new Promise((resolve, request) => {
-          resolve(text)
-        })
-      );
+      plugin = text => Promise.resolve(text);
     }
     //console.log(plugin);
     //if (availablePlugins.indexOf(ext(filename)) > -1) { plugin = require(`${__dirname}/core-plugins/${ext(filename)}`); }

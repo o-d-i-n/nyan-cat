@@ -4,7 +4,7 @@ const chalk = require('chalk');
 
 module.exports = (text) => (
   new Promise((resolve, reject) => {
-    
+
     let bracketStack = [];
     let buildWord = '';
     let buildJSON = '';
@@ -45,7 +45,12 @@ module.exports = (text) => (
       else if (c === "\\") {
         if (wordStart) {
           buildWord += c;
-          escaped = true;
+          if (escaped) {
+            escaped = false;
+          }
+          else {
+            escaped = true;
+          }
         }
         else {
           buildJSON += c;
@@ -58,37 +63,80 @@ module.exports = (text) => (
         }
         else {
           buildWord += c;
+          if (escaped) {
+            escaped = false;
+          }
         }
       }
       else if (c === '{') {
-        keyReset = true;
-        buildJSON += c;
-        bracketStack.push(c);
-      }
-      else if (c === '}') {
-        if (bracketStack[bracketStack.length - 1] === '{') {
-          bracketStack.pop();
-        }
-        buildJSON += c;
-      }
-      else if (c === '[') {
-        buildJSON += c;
-        bracketStack.push(c);
-      }
-      else if (c === ']') {
-        if (bracketStack[bracketStack.length - 1] === '[') {
-          bracketStack.pop();
-        }
-        buildJSON += c;
-      }
-      else if (c === ',') {
-        if (bracketStack[bracketStack.length - 1] === '[') {
-          keyReset = false;
+        if (!wordStart) {
+          keyReset = true;
+          buildJSON += c;
+          bracketStack.push(c);
         }
         else {
-          keyReset = true;
+          buildWord += c;
+          if (escaped) {
+            escaped = false;
+          }
         }
-        buildJSON += c;
+      }
+      else if (c === '}') {
+        if (!wordStart) {
+          if (bracketStack[bracketStack.length - 1] === '{') {
+            bracketStack.pop();
+          }
+          buildJSON += c;
+        }
+        else {
+          buildWord += c;
+          if (escaped) {
+            escaped = false;
+          }
+        }
+      }
+      else if (c === '[') {
+        if (!wordStart) {
+          buildJSON += c;
+          bracketStack.push(c);
+        }
+        else {
+          buildWord += c;
+          if (escaped) {
+            escaped = false;
+          }
+        }
+      }
+      else if (c === ']') {
+        if (!wordStart) {
+          if (bracketStack[bracketStack.length - 1] === '[') {
+            bracketStack.pop();
+          }
+          buildJSON += c;
+        }
+        else {
+          buildWord += c;
+          if (escaped) {
+            escaped = false;
+          }
+        }
+      }
+      else if (c === ',') {
+        if (!wordStart) {
+          if (bracketStack[bracketStack.length - 1] === '[') {
+            keyReset = false;
+          }
+          else {
+            keyReset = true;
+          }
+          buildJSON += c;
+        }
+        else {
+          buildWord += c;
+          if (escaped) {
+            escaped = false;
+          }
+        }
       }
       else {
         if (!wordStart) {
@@ -96,6 +144,9 @@ module.exports = (text) => (
         }
         else {
           buildWord += c;
+          if (escaped) {
+            escaped = false;
+          }
         }
       }
     }
