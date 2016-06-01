@@ -28,3 +28,7 @@ Contributors END -->
 | [![Divjot Singh](https://avatars.githubusercontent.com/bogas04?s=100)<br /><sub>Divjot Singh</sub>](https://github.com/bogas04)<br />[💻](https://github.com/bogas04/billi/commits?author=bogas04) [📖](https://github.com/bogas04/billi/commits?author=bogas04) | [![Mayank Badola](https://avatars.githubusercontent.com/mbad0la?s=100)<br /><sub>Mayank Badola</sub>](https://github.com/mbad0la)<br />[💻](https://github.com/bogas04/billi/commits?author=mbad0la) [📖](https://github.com/bogas04/billi/commits?author=mbad0la) |
 | :---: | :---: |
 <!-- Contributors table END -->
+* [Mohit Sharma](https://github.com/MohitS10) also contributed on code.
+
+#### Project Status
+Maintainer : [Mayank Badola](https://github.com/mbad0la) <mbad0la@outlook.com>
