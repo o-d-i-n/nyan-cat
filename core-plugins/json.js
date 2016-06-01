@@ -1,134 +1,134 @@
-'use strict';
-const chalk = require('chalk');
+'use strict'
+const chalk = require('chalk')
 
 module.exports = (text) => (
   new Promise((resolve, reject) => {
 
-    text = JSON.stringify(JSON.parse(text), null, 2);
-    let bracketStack = [];
-    let buildWord = '';
-    let buildJSON = '';
-    let wordStart = false;
-    let keyReset = true;
-    let escaped = false;
-    let doubleQuotesUsed = false;
+    text = JSON.stringify(JSON.parse(text), null, 2)
+    let bracketStack = []
+    let buildWord = ''
+    let buildJSON = ''
+    let wordStart = false
+    let keyReset = true
+    let escaped = false
+    let doubleQuotesUsed = false
 
     for (let c of text) {
       if (c === "\"" || c === "'") {
         if (!wordStart) {
-          buildWord += c;
-          wordStart = true;
+          buildWord += c
+          wordStart = true
           if (c === "\"") {
-            doubleQuotesUsed = true;
+            doubleQuotesUsed = true
           } else {
-            doubleQuotesUsed = false;
+            doubleQuotesUsed = false
           }
         } else {
-          buildWord += c;
+          buildWord += c
           if (escaped) {
-            escaped = false;
+            escaped = false
           } else if ((c === "'" && !doubleQuotesUsed)||(c === "\"" && doubleQuotesUsed)) {
             if (keyReset) {
-              buildJSON += chalk.red(buildWord);
+              buildJSON += chalk.red(buildWord)
             } else {
-              buildJSON += chalk.green(buildWord);
+              buildJSON += chalk.green(buildWord)
             }
-            buildWord = '';
-            wordStart = false;
+            buildWord = ''
+            wordStart = false
           }
         }
       } else if (c === "\\") {
         if (wordStart) {
-          buildWord += c;
+          buildWord += c
           if (escaped) {
-            escaped = false;
+            escaped = false
           } else {
-            escaped = true;
+            escaped = true
           }
         } else {
-          buildJSON += c;
+          buildJSON += c
         }
       } else if (c === ':') {
         if (!wordStart) {
-          buildJSON += c;
-          keyReset = false;
+          buildJSON += c
+          keyReset = false
         } else {
-          buildWord += c;
+          buildWord += c
           if (escaped) {
-            escaped = false;
+            escaped = false
           }
         }
       } else if (c === '{') {
         if (!wordStart) {
-          keyReset = true;
-          buildJSON += c;
-          bracketStack.push(c);
+          keyReset = true
+          buildJSON += c
+          bracketStack.push(c)
         } else {
-          buildWord += c;
+          buildWord += c
           if (escaped) {
-            escaped = false;
+            escaped = false
           }
         }
       } else if (c === '}') {
         if (!wordStart) {
           if (bracketStack[bracketStack.length - 1] === '{') {
-            bracketStack.pop();
+            bracketStack.pop()
           }
-          buildJSON += c;
+          buildJSON += c
         } else {
-          buildWord += c;
+          buildWord += c
           if (escaped) {
-            escaped = false;
+            escaped = false
           }
         }
       } else if (c === '[') {
         if (!wordStart) {
-          buildJSON += c;
-          bracketStack.push(c);
+          buildJSON += c
+          bracketStack.push(c)
         } else {
-          buildWord += c;
+          buildWord += c
           if (escaped) {
-            escaped = false;
+            escaped = false
           }
         }
       } else if (c === ']') {
         if (!wordStart) {
           if (bracketStack[bracketStack.length - 1] === '[') {
-            bracketStack.pop();
+            bracketStack.pop()
           }
-          buildJSON += c;
+          buildJSON += c
         } else {
-          buildWord += c;
+          buildWord += c
           if (escaped) {
-            escaped = false;
+            escaped = false
           }
         }
       } else if (c === ',') {
         if (!wordStart) {
           if (bracketStack[bracketStack.length - 1] === '[') {
-            keyReset = false;
+            keyReset = false
           } else {
-            keyReset = true;
+            keyReset = true
           }
-          buildJSON += c;
+          buildJSON += c
         } else {
-          buildWord += c;
+          buildWord += c
           if (escaped) {
-            escaped = false;
+            escaped = false
           }
         }
       } else {
         if (!wordStart) {
-          buildJSON += c;
+          buildJSON += c
         } else {
-          buildWord += c;
+          buildWord += c
           if (escaped) {
-            escaped = false;
+            escaped = false
           }
         }
       }
     }
 
-    resolve(buildJSON);
+    resolve(buildJSON)
   })
 );
