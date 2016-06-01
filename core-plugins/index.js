@@ -9,7 +9,7 @@ module.exports = (text) => (
 
     let output = text.split('\n');
 
-    output = output.slice(0, output.length - 1)
+    output = output.slice(0, output.length)
     .map((line, number, d) => lineNumber(++number, digitsIn(d.length)) + ' ' + line)
     .join('\n');
 
