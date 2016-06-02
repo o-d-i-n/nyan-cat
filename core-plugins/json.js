@@ -128,7 +128,7 @@ module.exports = (text) => (
         }
       }
     }
-
+    
     resolve(buildJSON);
   })
 );
