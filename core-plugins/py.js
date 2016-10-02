@@ -73,7 +73,7 @@ module.exports = (text) => (
     			}
     		}
     	}
-        else if( c.charAt(c.length-1) == '(' || c.charAt(c.length-1) == ')' || builtin.indexOf(c) > -1){
+        else if( c.charAt(c.length-1) == '(' || c.substring(c.length-2,c.length) == "()" || builtin.indexOf(c) > -1){
             let appendString
             if(c.charAt(c.length-1) == '(' || c.charAt(c.length-1) == ')'){
                 bracketFlag = true;
