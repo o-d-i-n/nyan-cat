@@ -8,10 +8,12 @@ module.exports = (text) => (
     let stringStart = false
     let doubleQuotes = false
     let commentStart = false
-
+    let functionName = false
+    let functionList = []
     let keywords = ["import" , "in"]
     let builtin = ["def" , "range"] 	
-
+    let bracketFlag = false
+    let bracketOpenFlag = false
     for (let c of text) {
     	let a = c.trim()
     	if(c==="#" && !stringStart) {
@@ -71,6 +73,76 @@ module.exports = (text) => (
     			}
     		}
     	}
+        else if( c.charAt(c.length-1) == '(' || c.charAt(c.length-1) == ')' || builtin.indexOf(c) > -1){
+            let appendString
+            if(c.charAt(c.length-1) == '(' || c.charAt(c.length-1) == ')'){
+                bracketFlag = true;
+                if(c.charAt(c.length-1) == '('){
+                    c = c.substring(0,c.length-1)
+                    appendString = "("
+                    bracketOpenFlag = true
+                }
+                else if(!bracketOpenFlag){
+                    c = c.substring(0,c.length-2)
+                    appendString = "()"
+                }
+
+
+            }
+            buildWord += c;
+            if(bracketFlag && builtin.indexOf(c) > -1){
+                
+                buildPython+= chalk.blue(buildWord);
+                
+                buildPython += chalk.white(appendString);
+            }
+            else if(bracketFlag && bracketOpenFlag){
+                buildPython += chalk.green(buildWord);
+                buildWord += chalk.white(appendString);
+                functionName.push(buildWord)
+            }
+            else if( builtin.indexOf(c)>-1){
+                buildPython += chalk.blue(buildWord);
+            }
+            buildWord = ''
+            bracketFlag = false
+
+        }
+        else if(bracketOpenFlag){
+            bracketOpenFlag = false
+            let words = []
+            if(c.charAt(c.length-1) == ')')
+            {
+                c = c.substring(0,c.length-1)
+                bracketFlag = true;
+            }
+            let whileFlag = true
+            while(whileFlag){
+                let commaIndex = -1
+                if(c.includes(",")){
+                    commaIndex = c.indexOf(",")
+                    words.push(c.substring(0,commaIndex))
+                    c = c.substring(commaIndex+1, c.length);
+
+                }
+                else{
+                    whileFlag = false
+                }
+            }
+            let lastWord = words[words.length-1]
+            for (x in words){
+                buildWord += x
+                buildPython+= chalk.orange(buildWord);
+                buildWord = ''
+                if(x != lastWord){
+                    buildPython += chalk.white(",");
+                }
+            }
+            if(bracketFlag){
+                buildPython += chalk.white(")");
+            }
+        }
+        
     	else {   
 			buildWord += c
     	}
