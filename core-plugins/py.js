@@ -142,6 +142,11 @@ module.exports = (text) => (
                 buildPython += chalk.white(")");
             }
         }
+        else if(keywords.indexOf(c) > -1){
+            buildWord += 'c'
+            buildPython += chalk.red(buildWord);
+            buildWord = '' 
+        }
         
     	else {   
 			buildWord += c
