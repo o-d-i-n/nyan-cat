@@ -104,6 +104,9 @@ module.exports = (text) => (
             buildPython += chalk.red(buildWord)
             buildWord = ''
         }
+        else if(c == ':'){
+            buildPython += chalk.white(c);
+        }
         
     	else {   
 			buildWord += c
