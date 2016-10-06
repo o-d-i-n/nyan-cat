@@ -79,7 +79,7 @@ module.exports = (text) => (
         }
         else if (!isNaN(c) && buildWord == ''){
             buildPython += chalk.cyan(c)
-
+            buildWord = ''
         }
         else if (c=='('){
             buildPython += chalk.green(buildWord);
