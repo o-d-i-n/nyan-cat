@@ -10,12 +10,13 @@ module.exports = (text) => (
     let commentStart = false
     let functionName = false
     let functionList = []
-    let keywords = ["import" , "in"]
+    let keywords = ["import" , "in", "for", "print"]
     let builtin = ["def" , "range"] 	
     let bracketFlag = false
     let bracketOpenFlag = false
     for (let c of text) {
     	let a = c.trim()
+        console.log(buildWord)
     	if(c==="#" && !stringStart) {
     		buildPython += buildWord
     		buildWord = ''
@@ -30,16 +31,16 @@ module.exports = (text) => (
     			commentStart = false
     		}
     	}
-    	else if(a==='' && !stringStart) {
-    		if(keywords.indexOf(buildWord)>=0)
-    			buildPython += chalk.red(buildWord)
-    		else if(builtin.indexOf(buildWord)>=0)
-    			buildPython += chalk.blue(buildWord)	
-    		else
-    			buildPython += buildWord
-    		buildPython += c
-    		buildWord = ''
-    	}
+    	// else if(a==='' && !stringStart) {
+    	// 	if(keywords.indexOf(buildWord)>=0)
+    	// 		buildPython += chalk.red(buildWord)
+    	// 	else if(builtin.indexOf(buildWord)>=0)
+    	// 		buildPython += chalk.blue(buildWord)	
+    	// 	else
+    	// 		buildPython += buildWord
+    	// 	buildPython += c
+    	// 	buildWord = ''
+    	// }
     	else if (c === "\"" || c === "\'") {	
     		if(!stringStart) {
     			stringStart = true
@@ -75,37 +76,60 @@ module.exports = (text) => (
     	}
         else if (builtin.indexOf(buildWord)>-1){
             buildPython += chalk.blue(buildWord)
+            buildPython += " "
             buildWord = ''
+            if ( c === "("){
+                buildPython += chalk.white(c)
+                bracketOpenFlag = true
+            }
+
         }
-        else if (!isNaN(c) && buildWord == ''){
+        else if(keywords.indexOf(buildWord)> -1){
+            buildPython += chalk.red(buildWord)
+            buildPython += " "
+            buildWord = ''
+            if ( c === "("){
+                buildPython += chalk.white(c);
+                bracketOpenFlag = true
+            }
+        }
+        else if (!isNaN(c) && buildWord === ''){
             buildPython += chalk.cyan(c)
             buildWord = ''
         }
-        else if (c=='('){
-            buildPython += chalk.green(buildWord);
+        else if (c==='('){
+            if(builtin.indexOf(buildWord) == -1){
+                buildPython += chalk.green(buildWord);
+            }
+            
             buildPython += chalk.white(c)
             buildWord = ''
             bracketOpenFlag = true
         }
-        else if (c = ',' && bracketOpenFlag){
+        else if (c === ',' && bracketOpenFlag){
             buildPython += chalk.magenta(buildWord)
             buildWord = ''
             buildPython += chalk.white(c)
         } 
-        else if(c = ')'){
+        else if(c === ')'){
             if(buildWord != ''){
                 buildPython += chalk.magenta(buildWord)
                 buildWord = ''
                 buildPython += chalk.white(c)
                 bracketOpenFlag = false
+            } else{
+                buildPython += chalk.white(c)
+                bracketOpenFlag = false
             }
         }
-        else if(keywords.indexOf(buildWord)> -1){
-            buildPython += chalk.red(buildWord)
-            buildWord = ''
-        }
-        else if(c == ':'){
+        
+        else if(c === ':'){
             buildPython += chalk.white(c);
+        }
+        else if(c == " " && !stringStart && !doubleQuotes && !commentStart && !bracketOpenFlag){
+            buildPython += chalk.white(buildWord)
+            buildPython += c
+            buildWord = ''
         }
         
     	else {   
