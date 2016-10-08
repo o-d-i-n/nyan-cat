@@ -74,9 +74,9 @@ module.exports = (text) => (
     			}
     		}
     	}
-        else if (builtin.indexOf(buildWord)>-1){
+        else if (builtin.indexOf(buildWord)>-1 && c == " "){
             buildPython += chalk.blue(buildWord)
-            if(c === " ")
+            
             buildPython += " "
             buildWord = ''
             if ( c === "("){
@@ -85,9 +85,9 @@ module.exports = (text) => (
             }
 
         }
-        else if(keywords.indexOf(buildWord)> -1){
+        else if(keywords.indexOf(buildWord)> -1 && c == " "){
             buildPython += chalk.red(buildWord)
-            if(c === " ")
+            
             buildPython += " "
             buildWord = ''
             if ( c === "("){
