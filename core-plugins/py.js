@@ -74,24 +74,22 @@ module.exports = (text) => (
     			}
     		}
     	}
-        else if (builtin.indexOf(buildWord)>-1 && c == " "){
+        else if (builtin.indexOf(buildWord)>-1 && (c == " " || c == "(")){
             buildPython += chalk.blue(buildWord)
             
-            buildPython += " "
+            buildPython += chalk.white(c)
             buildWord = ''
             if ( c === "("){
-                buildPython += chalk.white(c)
                 bracketOpenFlag = true
             }
 
         }
-        else if(keywords.indexOf(buildWord)> -1 && c == " "){
+        else if(keywords.indexOf(buildWord)> -1 && (c == " " || c == "(")){
             buildPython += chalk.red(buildWord)
             
-            buildPython += " "
+            buildPython += chalk.white(c)
             buildWord = ''
             if ( c === "("){
-                buildPython += chalk.white(c);
                 bracketOpenFlag = true
             }
         }
