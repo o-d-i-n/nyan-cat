@@ -76,6 +76,7 @@ module.exports = (text) => (
     	}
         else if (builtin.indexOf(buildWord)>-1){
             buildPython += chalk.blue(buildWord)
+            if(c === " ")
             buildPython += " "
             buildWord = ''
             if ( c === "("){
@@ -86,6 +87,7 @@ module.exports = (text) => (
         }
         else if(keywords.indexOf(buildWord)> -1){
             buildPython += chalk.red(buildWord)
+            if(c === " ")
             buildPython += " "
             buildWord = ''
             if ( c === "("){
