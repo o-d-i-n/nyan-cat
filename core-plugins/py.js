@@ -15,7 +15,7 @@ module.exports = (text) => (
     let bracketFlag = false
     let bracketOpenFlag = false
     for (let c of text) {
-    	let a = c.trim()
+    	let a = c.trim() 
         
     	if(c==="#" && !stringStart) {
     		buildPython += buildWord
