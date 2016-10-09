@@ -10,8 +10,8 @@ module.exports = (text) => (
     let commentStart = false
     let functionName = false
     let functionList = []
-    let keywords = ["import" , "in", "for", "print"]
-    let builtin = ["def" , "range"] 	
+    let keywords = [ "False", "None", "True", "and", "as", "assert", "break", "class", "continue", "def", "del", "elif", "else", "except", "finally", "for", "from", "global", "if", "import", "in", "is", "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try", "while", "with", "yield" ]
+    let builtin = [ "abs", "all", "any", "ascii", "basestring", "bin", "bool", "bytearray", "bytes", "callable", "chr", "classmethod", "cmp", "compile", "complex", "delattr", "dict", "dir", "divmod", "enumerate", "eval", "exec", "execfile", "file", "filter", "float", "format", "frozenset", "getattr", "globals", "hasattr", "hash", "help", "hex", "id", "input", "int", "isinstance", "issubclass", "iter", "len", "list", "locals", "long", "map", "max", "memoryview", "min", "next", "object", "oct", "open", "ord", "pow", "print", "property", "range", "raw_input", "reduce", "reload", "repr", "reversed", "round", "set", "setattr", "slice", "sorted", "staticmethod", "str", "sum", "super", "tuple", "type", "unichr", "unicode", "vars", "xrange", "zip", "__import__" ]
     let bracketFlag = false
     let bracketOpenFlag = false
     for (let c of text) {
