@@ -5,7 +5,6 @@ module.exports = (text) => (
   new Promise((resolve, reject) => {
     let checkScript = ''
     let scriptStart = false;
-    let meowmeow = ''
     let checkContent = ''
     let buildWord = ''
     let buildML = ''
@@ -155,9 +154,8 @@ module.exports = (text) => (
             checkContent +=c
           if(checkContent == "/script"){
               scriptStart = false;
-              buildML = buildML.slice(0,-82)
+              buildML = buildML.slice(0,-82) //-82 = 7 characters stripping from end
               buildML+= chalk.red(checkContent)
-              meowmeow = "MEOWMOFOMEOW"
               checkContent = ''}
 
          }
@@ -169,9 +167,6 @@ module.exports = (text) => (
           buildML += chalk.magenta(c)
       }
     }
-    buildML += "\n"
-    buildML += meowmeow;
-    buildML += checkContent;
 
     resolve(buildML)
   })
