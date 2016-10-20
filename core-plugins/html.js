@@ -1,6 +1,7 @@
 'use strict';
 const chalk = require('chalk');
 
+
 module.exports = (text) => (
   new Promise((resolve, reject) => {
 
@@ -14,13 +15,43 @@ module.exports = (text) => (
     let first = false
     let escaped = false
     let doubleQuotesUsed = false;
+    let boom = ''
+    let isJs = false
+
 
     for (let c of text) {
+
+        if(!isJs) {
+            boom += c;
+            if(boom === '<script>') {
+                isJs = true
+                boom = ''
+            } else if(!(boom === '<' || boom === '<s' || boom === '<sc' || boom === '<scr' || boom === '<scri' || boom === '<scrip' || boom === '<script')){
+                boom = ''
+            }
+
+        } else {
+            boom += c
+            if(boom === '</script>') {
+                buildML = buildML.slice(0, -8);
+                buildML += chalk.magenta('<') + chalk.red('/script') + chalk.magenta('>')
+                isJs = false
+                boom = ''
+                continue
+            } else if(!(boom === '<' || boom === '</' || boom === '</s' || boom === '</sc' || boom === '</scr' || boom === '</scri' || boom === '</scrip' || boom === '</script')){
+                boom = ''
+            }
+            buildML += c;
+            continue
+        }
+
+
+
       if (c === "<") {
           tagStart = true
           first = true
       } else if (c === ">") {
-          
+
           if(buildWord)
           {
             buildTag += chalk.green(buildWord)
@@ -49,7 +80,7 @@ module.exports = (text) => (
             } else {
               doubleQuotesUsed = false
             }
-          } 
+          }
           else {
             buildWord += c
             if (escaped) {
@@ -70,11 +101,11 @@ module.exports = (text) => (
             buildWord += c
             if (escaped) {
               escaped = false
-            } 
+            }
             else {
               escaped = true
             }
-          } 
+          }
           else {
             buildTag += c
            }
@@ -108,7 +139,7 @@ module.exports = (text) => (
         } else if (c === "!") {
             if(first){
               buildTag += c
-              commentStart = true  
+              commentStart = true
             } else {
               buildWord += c
             }
