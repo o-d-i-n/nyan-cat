@@ -135,7 +135,7 @@ module.exports = (text) => (
     	else {   
 			buildWord += c
 
-    console.log(buildWord);
+ 
     	}
     }
 	buildPython+=buildWord
